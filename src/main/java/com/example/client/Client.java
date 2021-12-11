@@ -52,8 +52,8 @@ public class Client {
         sendMessage("ACCOUNT");
         if (!readMessage("221 Account OK")) return;
 
-        //send Account
-        //readMessage("222 Login Success");
+        sendMessage(data.getAccountToString());
+        readMessage("222 Login Success");
     }
 
     public void CreateAccount(){
@@ -63,8 +63,8 @@ public class Client {
         sendMessage("ACCOUNT");
         if (!readMessage("211 Account OK")) return;
 
-        //send account
-        //readMessage("212 Register Success");
+        sendMessage(data.getNewAccountToString());
+        readMessage("212 Register Success");
     }
 
     public void Logout(){
@@ -94,7 +94,7 @@ public class Client {
 
         if(!readMessage("242 Info Register OK")) return;
 
-        //send locationID
+        sendMessage(data.locationId.toString());
 
         readFile("sensorRegister.json");
     }
@@ -104,7 +104,7 @@ public class Client {
 
         if(!readMessage("243 Add register OK")) return;
 
-        //send sensorid
+        sendMessage(data.getAddSensor());
     }
 
     public void removeSensor(){
@@ -112,7 +112,7 @@ public class Client {
 
         if(!readMessage("244 Delete register OK")) return;
 
-        //send sensorid
+        sendMessage(data.getRemoveSensor());
     }
 
     public void getInfoSensor(){
@@ -120,7 +120,7 @@ public class Client {
 
         if(!readMessage("251 Get Info Sensor OK")) return;
 
-        //send locationId
+        sendMessage(data.infoSensor.toString());
 
         readMessage("");
         //readFile("infoSensor.json");
@@ -139,7 +139,9 @@ public class Client {
             byte[] bytes = new byte[n];
             System.arraycopy(BUFFER, 0, bytes, 0, n);
             System.out.println("Broker: "+ new String(bytes));
-            return 1;
+
+            data.setFileSize(new String(bytes));
+            return data.getFileSize();
         } catch (IOException e) {
             System.out.println("Time out connect to Server");
             return -1;
@@ -163,6 +165,11 @@ public class Client {
             StringBuilder stringBuilder = new StringBuilder();
             while ((line = bufferedReader.readLine()) != null){
                 stringBuilder.append(line);
+            }
+            switch (filename) {
+                case "location.json" -> data.setLocation(stringBuilder.toString());
+                case "sensor.json" -> data.setSensor(stringBuilder.toString());
+                case "sensorRegister.json" -> data.setSensorRegister(stringBuilder.toString());
             }
             data.setSucceed(true);
         } catch (IOException e){
