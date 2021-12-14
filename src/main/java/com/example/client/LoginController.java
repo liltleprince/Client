@@ -113,7 +113,14 @@ public class LoginController {
         stage.show();
         WeatherController weatherController = fxmlLoader.getController();
         weatherController.start();
+        clear();
+        data.runGetData = true;
+    }
+
+    public void clear(){
         LoginError.setText("");
+        username.setText("");
+        pw.setText("");
     }
 
     public void onUsernameMouseClicked() {
@@ -134,6 +141,7 @@ public class LoginController {
             stage.setTitle("Đăng ký");
             stage.setResizable(false);
             stage.setScene(scene);
+            clear();
             // Hide this current window (if this is what you want)
             // ((Node)(event.getSource())).getScene().getWindow().hide();
         }

@@ -78,6 +78,8 @@ public class Client {
 
         if(!readMessage("240 GET Location OK")) return;
 
+        sendMessage("FILE SIZE");
+
         readFile("location.json");
     }
 
@@ -85,6 +87,8 @@ public class Client {
         sendMessage("GET TYPE");
 
         if(!readMessage("241 GET Type Sensor OK")) return;
+
+        sendMessage("FILE SIZE");
 
         readFile("sensor.json");
     }
@@ -105,14 +109,18 @@ public class Client {
         if(!readMessage("243 Add register OK")) return;
 
         sendMessage(data.getAddSensor());
+
+        readMessage("244 Add Success");
     }
 
     public void removeSensor(){
         sendMessage("DELETE REGISTER");
 
-        if(!readMessage("244 Delete register OK")) return;
+        if(!readMessage("245 Delete register OK")) return;
 
         sendMessage(data.getRemoveSensor());
+
+        readMessage("246 Delete Success");
     }
 
     public void getInfoSensor(){
@@ -122,8 +130,17 @@ public class Client {
 
         sendMessage(data.infoSensor.toString());
 
-        readMessage("");
-        //readFile("infoSensor.json");
+        readFile("infoSensor.json");
+    }
+
+    public void getInfoSensorNow(){
+        sendMessage("GET INFO SENSOR NOW");
+
+        if(!readMessage("252 Get Info Sensor now OK")) return;
+
+        sendMessage(data.locationId.toString());
+
+        readFile("infoSensorNow.json");
     }
 
     public long readFileSize(){
@@ -144,6 +161,7 @@ public class Client {
             return data.getFileSize();
         } catch (IOException e) {
             System.out.println("Time out connect to Server");
+            data.setSucceed(false);
             return -1;
         }
     }
@@ -151,6 +169,7 @@ public class Client {
     public void readFile(String filename) {
         try {
             long fileSize = readFileSize();
+            sendMessage("START DOWNLOAD");
             if (fileSize == -1) return;
             len = 0;
             File file = new File(filename);
@@ -170,6 +189,8 @@ public class Client {
                 case "location.json" -> data.setLocation(stringBuilder.toString());
                 case "sensor.json" -> data.setSensor(stringBuilder.toString());
                 case "sensorRegister.json" -> data.setSensorRegister(stringBuilder.toString());
+                case "infoSensor.json" -> data.setDataInfoSensor(stringBuilder.toString());
+                case "infoSensorNow.json" -> data.setInfoSensorNow(stringBuilder.toString());
             }
             data.setSucceed(true);
         } catch (IOException e){
@@ -179,6 +200,10 @@ public class Client {
     }
 
     public boolean readMessage(String message){
+        if (data.DisConnect){
+            System.out.println("Can't connect to Broker");
+            return false;
+        }
         try {
             socket.setSoTimeout(3000);
             int n = recvFile.read(BUFFER,0,BUFFER_SIZE);
@@ -202,11 +227,17 @@ public class Client {
             return false;
         } catch (IOException e) {
             System.out.println("Time out connect to Server");
+            data.setSucceed(false);
+            data.setDisConnect();
             return false;
         }
     }
 
     public void sendMessage(String message){
+        if (data.DisConnect){
+            System.out.println("Can't connect to Broker");
+            return;
+        }
         char[] chars = message.toCharArray();
         try {
             os.write(chars,0,chars.length);
@@ -214,11 +245,17 @@ public class Client {
             System.out.println("Send to Broker: "+message);
         } catch (IOException e) {
             e.printStackTrace();
+            data.setSucceed(false);
+            data.setDisConnect();
             System.out.println("Can't connect to Broker");
         }
     }
 
     public void quit(){
+        if (socket == null) {
+            System.out.println("DisConnect to Broker");
+            return;
+        }
         sendMessage("QUIT");
 
         readMessage("999 bye");

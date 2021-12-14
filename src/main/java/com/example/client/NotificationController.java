@@ -10,7 +10,7 @@ public class NotificationController {
     @FXML
     public Button Ok;
 
-    public void onMouseClickedOk(MouseEvent mouseEvent) {
+    public void onMouseClickedOk() {
         Stage stage = (Stage) this.Ok.getScene().getWindow();
         stage.close();
         Data data = Data.getData();
@@ -19,12 +19,12 @@ public class NotificationController {
         stage1.setScene(data.Login);
     }
 
-    public void onMouseExitedOk(MouseEvent mouseEvent) {
+    public void onMouseExitedOk() {
         Ok.setEffect(null);
 
     }
 
-    public void onMouseMovedOk(MouseEvent mouseEvent) {
+    public void onMouseMovedOk() {
         Ok.setEffect(new DropShadow());
     }
 }

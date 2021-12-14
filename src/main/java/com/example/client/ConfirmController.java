@@ -24,6 +24,8 @@ public class ConfirmController {
         data.Logout();
         data.stage.setTitle("Đăng nhập");
         data.stage.setScene(data.Login);
+        data.runGetData = false;
+        data.locationName = "NULL";
     }
 
     public void onMouseExitedCancel() {

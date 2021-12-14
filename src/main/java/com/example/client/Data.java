@@ -8,15 +8,15 @@ import java.net.Socket;
 
 public class Data {
     private static final Data data = new Data();
-    public boolean Connected = false, DisConnect = true, Succeed = false, changeLocation = false;
+    public boolean Connected = false, DisConnect = true, Succeed = false, changeLocation = false, runGetData = false;
     public static Client client = new Client();
     public String[] locationString, sensorString, sensorRegisterString, sensorTypeValue;
-    public String locationName = "NULL", TypeId = "NULL";
+    public String locationName = "NULL", TypeId = "NULL", TypeName;
     public Scene Login;
     public Stage stage;
     public Socket socket;
     JSONObject account = new JSONObject(), newAccount = new JSONObject(), locationId = new JSONObject(), fileSize, removeSensor = new JSONObject(), addSensor = new JSONObject(), infoSensor;
-    JSONArray location,sensor,sensorRegister;
+    JSONArray location, sensor, sensorRegister, dataInfoSensor, infoSensorNow;
 
 
     private Data(){}
@@ -103,6 +103,14 @@ public class Data {
         }
     }
 
+    public void setDataInfoSensor(String dataInfoSensor){
+        this.dataInfoSensor = new JSONArray(dataInfoSensor);
+    }
+
+    public void setInfoSensorNow(String infoSensorNow){
+        this.infoSensorNow = new JSONArray(infoSensorNow);
+    }
+
     public void setLocationName(String locationName){
         if (locationName.equals(this.locationName)) return;
         this.locationName = locationName;
@@ -122,6 +130,7 @@ public class Data {
     }
 
     public void setTypeId(String TypeName){
+        this.TypeName = TypeName;
         for (int i=0; i<sensorRegister.length(); i++){
             JSONObject jsonObject = sensorRegister.getJSONObject(i);
             if (TypeName.equals(jsonObject.get("TypeName"))){
@@ -246,6 +255,10 @@ public class Data {
         infoSensor.put("Date",Date);
         infoSensor.put("TypeTime",TypeName);
         client.getInfoSensor();
+    }
+
+    public void getInfoSensorNow(){
+        client.getInfoSensorNow();
     }
 
     public void quit(){

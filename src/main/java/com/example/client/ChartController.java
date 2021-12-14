@@ -94,6 +94,7 @@ public class ChartController implements Initializable {
     public void onMouseClickedBack(){
         Stage stage = (Stage) Back.getScene().getWindow();
         stage.setScene(scene);
+        data.runGetData = true;
     }
 
     public void onMouseEnteredDay(){
@@ -150,22 +151,26 @@ public class ChartController implements Initializable {
     public void chart(){
         if (TypeTime.equals("NULL") || Date.getValue() == null) return;
         data.getInfoSensor(TypeTime, String.valueOf(Date.getValue()));
-        x.setLowerBound(1);
-        x.setUpperBound(12);
+        String value , TypeTimeVI;
+        switch (TypeTime){
+            case "Day" -> value = Date.getValue().getDayOfMonth()+ "/" + Date.getValue().getMonthValue()+ "/" + Date.getValue().getYear();
+            case "Month" -> value = Date.getValue().getMonthValue() + "/" + Date.getValue().getYear();
+            default -> value = String.valueOf(Date.getValue().getYear());
+        }
+        switch (TypeTime){
+            case "Day" -> TypeTimeVI = "Ngày";
+            case "Month" -> TypeTimeVI = "Tháng";
+            default -> TypeTimeVI = "Năm";
+        }
+        chart.getData().clear();
+        chart.setName("Biểu đồ " + data.VI_EN(data.TypeName) + " " + TypeTimeVI + " " + value);
+        x.setLowerBound((Integer) data.dataInfoSensor.getJSONObject(0).get("Time"));
+        x.setUpperBound((Integer) data.dataInfoSensor.getJSONObject(data.dataInfoSensor.length()-1).get("Time"));
         x.setTickUnit(1);
         x.setAutoRanging(false);
-        chart.getData().add(new XYChart.Data(1,10.5));
-        chart.getData().add(new XYChart.Data(2,20));
-        chart.getData().add(new XYChart.Data(3,35));
-        chart.getData().add(new XYChart.Data(4,50));
-        chart.getData().add(new XYChart.Data(5,5));
-        chart.getData().add(new XYChart.Data(6,2));
-        chart.getData().add(new XYChart.Data(7,1));
-        chart.getData().add(new XYChart.Data(8,25));
-        chart.getData().add(new XYChart.Data(9,30));
-        chart.getData().add(new XYChart.Data(10,100));
-        chart.getData().add(new XYChart.Data(11,5));
-        chart.getData().add(new XYChart.Data(12,45));
+        for (int i=0; i<data.dataInfoSensor.length(); i++){
+            chart.getData().add(new XYChart.Data(data.dataInfoSensor.getJSONObject(i).get("Time"), data.dataInfoSensor.getJSONObject(i).get("Value")));
+        }
     }
 
     @Override
@@ -173,6 +178,7 @@ public class ChartController implements Initializable {
         username.setText(data.getAccount().get("Username").toString());
         x.setAutoRanging(false);
         StackedAreaChart.setTitle("");
+        chart.setName("");
         StackedAreaChart.getData().add(chart);
         Date.setConverter(new StringConverter<>()
         {
