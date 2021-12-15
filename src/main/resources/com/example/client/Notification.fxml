@@ -6,17 +6,18 @@
 <?import javafx.scene.text.Font?>
 
 
-<AnchorPane prefHeight="96.0" prefWidth="220.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.client.NotificationController">
-    <children>
-        <Label layoutX="37.0" layoutY="23.0" text="Đăng ký thành công" textFill="#00ff15">
-            <font>
-                <Font name="DejaVu Serif Bold" size="13.0" />
-            </font>
-        </Label>
-        <Button fx:id="Ok" layoutX="80.0" layoutY="52.0" mnemonicParsing="false" onMouseClicked="#onMouseClickedOk" onMouseExited="#onMouseExitedOk" onMouseMoved="#onMouseMovedOk" prefHeight="30.0" prefWidth="60.0" style="-fx-background-color: rgba(20,218,103,1); -fx-background-radius: 20px;" text="OK!">
-            <font>
-                <Font name="DejaVu Serif Bold" size="12.0" />
-            </font>
-        </Button>
-    </children>
+<AnchorPane prefHeight="96.0" prefWidth="220.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.client.NotificationController">
+   <Label layoutX="37.0" layoutY="23.0" text="Đăng ký thành công" textFill="#00ff15">
+      <font>
+         <Font name="DejaVu Serif Bold" size="13.0"/>
+      </font>
+   </Label>
+   <Button fx:id="Ok" layoutX="80.0" layoutY="52.0" mnemonicParsing="false" onMouseClicked="#onMouseClickedOk"
+           onMouseExited="#onMouseExitedOk" onMouseMoved="#onMouseMovedOk" prefHeight="30.0" prefWidth="60.0"
+           style="-fx-background-color: rgba(20,218,103,1); -fx-background-radius: 20px;" text="OK!">
+      <font>
+         <Font name="DejaVu Serif Bold" size="12.0"/>
+      </font>
+   </Button>
 </AnchorPane>

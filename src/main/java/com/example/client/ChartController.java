@@ -152,7 +152,7 @@ public class ChartController {
             default -> TypeTimeVI = "Năm";
         }
         chart.getData().clear();
-        if (data.dataInfoSensor.length() == 0){
+        if (data.dataInfoSensor.length() < 2){
             chart.setName("Xin lỗi! Không có dữ liệu ...");
             return;
         }

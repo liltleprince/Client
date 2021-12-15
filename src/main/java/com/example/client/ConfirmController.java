@@ -17,13 +17,13 @@ public class ConfirmController {
         stage.close();
     }
 
-    public void onMouseClickedOk() {
+    public void onMouseClickedOk(){
         Stage stage = (Stage) Ok.getScene().getWindow();
         stage.close();
         Data data = Data.getData();
         data.Logout();
         data.stage.setTitle("Đăng nhập");
-        data.stage.setScene(data.Login);
+        data.scene.setRoot(data.fxmlLoaderLogin.getRoot());
         data.runGetData = false;
         data.locationName = "NULL";
     }
