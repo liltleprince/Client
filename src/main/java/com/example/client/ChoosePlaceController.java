@@ -1,7 +1,6 @@
 package com.example.client;
 
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.effect.DropShadow;
@@ -9,10 +8,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
-public class ChoosePlaceController implements Initializable {
+public class ChoosePlaceController {
     @FXML
     public Button Add;
     @FXML
@@ -21,8 +17,7 @@ public class ChoosePlaceController implements Initializable {
     private ListView<String> listView;
     Data data = Data.getData();
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    public void start(){
         listView.getItems().addAll(data.locationString);
     }
 

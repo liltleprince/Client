@@ -2,9 +2,9 @@ package com.example.client;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.StackedAreaChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
@@ -15,17 +15,11 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
-
 import java.io.IOException;
-import java.net.URL;
-import java.text.Format;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Formatter;
-import java.util.ResourceBundle;
 
-public class ChartController implements Initializable {
+public class ChartController {
 
     @FXML
     public DatePicker Date;
@@ -46,30 +40,26 @@ public class ChartController implements Initializable {
     @FXML
     public NumberAxis x;
     @FXML
-    public javafx.scene.chart.StackedAreaChart StackedAreaChart;
+    public StackedAreaChart StackedAreaChart;
 
-    Scene scene;
+    boolean start = true;
     Data data = Data.getData();
     XYChart.Series<Integer, Double> chart = new XYChart.Series<>();
     String styleDefault = "-fx-background-color: rgb(237,215,118); -fx-background-radius: 20px;";
     String styleChoose = "-fx-background-color: rgb(30,144,255); -fx-background-radius: 20px;";
     String TypeTime = "NULL";
-
-    public void setScene(Scene scene){
-        this.scene = scene;
-    }
-
+    
     public void onMouseEnteredLogout(){
         Logout.setTextFill(Color.RED);
     }
-
+    
     public void onMouseExitedLogout(){
         Logout.setTextFill(Color.BLACK);
     }
-
+    
     public void onMouseClickedLogout(){
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("Confirm.fxml"));
         Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("Confirm.fxml"));
         Scene scene = null;
         try {
             scene = new Scene(fxmlLoader.load());
@@ -92,8 +82,7 @@ public class ChartController implements Initializable {
     }
 
     public void onMouseClickedBack(){
-        Stage stage = (Stage) Back.getScene().getWindow();
-        stage.setScene(scene);
+        data.scene.setRoot(data.fxmlLoaderWeather.getRoot());
         data.runGetData = true;
     }
 
@@ -163,6 +152,10 @@ public class ChartController implements Initializable {
             default -> TypeTimeVI = "Năm";
         }
         chart.getData().clear();
+        if (data.dataInfoSensor.length() == 0){
+            chart.setName("Xin lỗi! Không có dữ liệu ...");
+            return;
+        }
         chart.setName("Biểu đồ " + data.VI_EN(data.TypeName) + " " + TypeTimeVI + " " + value);
         x.setLowerBound((Integer) data.dataInfoSensor.getJSONObject(0).get("Time"));
         x.setUpperBound((Integer) data.dataInfoSensor.getJSONObject(data.dataInfoSensor.length()-1).get("Time"));
@@ -173,8 +166,9 @@ public class ChartController implements Initializable {
         }
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    public void start(){
+        if (!start) return;
+        start = false;
         username.setText(data.getAccount().get("Username").toString());
         x.setAutoRanging(false);
         StackedAreaChart.setTitle("");

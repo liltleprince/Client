@@ -3,7 +3,6 @@ package com.example.client;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 public class NotificationController {
@@ -14,9 +13,8 @@ public class NotificationController {
         Stage stage = (Stage) this.Ok.getScene().getWindow();
         stage.close();
         Data data = Data.getData();
-        Stage stage1 = data.stage;
-        stage1.setTitle("Đăng nhập");
-        stage1.setScene(data.Login);
+        data.stage.setTitle("Đăng nhập");
+        data.scene.setRoot(data.fxmlLoaderLogin.getRoot());
     }
 
     public void onMouseExitedOk() {

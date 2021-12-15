@@ -1,24 +1,20 @@
 package com.example.client;
 
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.effect.DropShadow;
 import javafx.stage.Stage;
-
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.ResourceBundle;
 
-public class ChooseSensorController implements Initializable {
+public class ChooseSensorController {
     @FXML
     public Button Save;
     @FXML
     public Button Cancel;
     @FXML
     private ListView<String> listView;
-    ArrayList<String> listSensor = new ArrayList<String>();
+    ArrayList<String> listSensor = new ArrayList<>();
     Data data = Data.getData();
 
     public void onMouseClickedAdd() {
@@ -52,8 +48,7 @@ public class ChooseSensorController implements Initializable {
         Cancel.setEffect(null);
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    public void start(){
         for (int i=0; i<data.sensor.length(); i++){
             boolean check = true;
             for (int j=0; j<data.sensorRegister.length(); j++)

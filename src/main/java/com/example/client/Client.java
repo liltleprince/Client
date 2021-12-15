@@ -5,7 +5,7 @@ import java.net.Socket;
 
 public class Client {
     public final static String SERVER_IP = "127.0.0.1";
-    public final static int SERVER_PORT = 8000;
+    public final static int SERVER_PORT = 8086;
     public final static int BUFFER_SIZE = 1024;
     public final static byte[] BUFFER = new byte[BUFFER_SIZE];
     public static Socket socket;

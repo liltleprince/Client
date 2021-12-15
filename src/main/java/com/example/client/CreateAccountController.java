@@ -31,6 +31,13 @@ public class CreateAccountController {
     public Button Cancel;
     public Data data = Data.getData();
 
+    public void clear(){
+        UserName.setText("");
+        Password.setText("");
+        RePassword.setText("");
+        Notification.setText("");
+    }
+
     public void UsernameClicked() {
         UserName.setStyle("-fx-border-color : none");
         //Notification.setText("");
@@ -57,9 +64,9 @@ public class CreateAccountController {
     }
 
     public void CancelClicked() {
-        Stage stage = (Stage) Cancel.getScene().getWindow();
-        stage.setScene(data.Login);
-        stage.setTitle("Đăng nhập");
+        data.scene.setRoot(data.fxmlLoaderLogin.getRoot());
+        data.stage.setTitle("Đăng nhập");
+        clear();
     }
 
     public void CancelKeyPressed(KeyEvent keyEvent) {
@@ -147,6 +154,7 @@ public class CreateAccountController {
         stage.setScene(scene);
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.show();
+        clear();
         //Notification.setText("Create Account Successfully!");
     }
 

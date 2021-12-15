@@ -4,7 +4,6 @@ package com.example.client;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -15,8 +14,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
-import java.io.IOException;
 
 import static javafx.scene.input.KeyCode.TAB;
 
@@ -48,14 +45,10 @@ public class LoginController {
     public void start() {
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
-        Stage stage = (Stage) this.Login.getScene().getWindow();
-        data.setStage(stage);
         LoginError.setText("");
-        Scene scene = this.Login.getScene();
-        data.setLogin(scene);
     }
 
-    public void onLoginButtonClick() throws Exception {
+    public void onLoginButtonClick() {
         //username hoặc password rỗng
         if ((username.getText().length() == 0)||(pw.getText().length() == 0)) {
             if (username.getText().length() == 0) {
@@ -104,14 +97,14 @@ public class LoginController {
         }
 
         //Đăng nhập thành công
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("Weather.fxml"));
         Stage stage = (Stage) Login.getScene().getWindow();
-        Scene scene = new Scene(fxmlLoader.load(),600,400);
+        Scene scene = Login.getScene();
+        scene.setRoot(data.fxmlLoaderWeather.getRoot());
         //stage.setResizable(false);
         stage.setTitle("Thời Tiết");
         stage.setScene(scene);
         stage.show();
-        WeatherController weatherController = fxmlLoader.getController();
+        WeatherController weatherController = data.fxmlLoaderWeather.getController();
         weatherController.start();
         clear();
         data.runGetData = true;
@@ -134,34 +127,23 @@ public class LoginController {
     }
 
     public void onCreateAccountClick() {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("CreateAccount.fxml"));
-            Stage stage = (Stage) this.Login.getScene().getWindow();
-            Scene scene = new Scene(fxmlLoader.load(), 600, 400);
-            stage.setTitle("Đăng ký");
-            stage.setResizable(false);
-            stage.setScene(scene);
-            clear();
-            // Hide this current window (if this is what you want)
-            // ((Node)(event.getSource())).getScene().getWindow().hide();
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
+        data.scene.setRoot(data.fxmlLoaderCreateAccount.getRoot());
+        data.stage.setTitle("Đăng ký");
+        clear();
     }
 
-    public void onUsernameKeyPressed(KeyEvent keyEvent) throws Exception {
+    public void onUsernameKeyPressed(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ENTER) onLoginButtonClick();
         if (keyEvent.getCode() == TAB) onPwMouseClicked();
         if (username.getText().length() != 0) onUsernameMouseClicked();
     }
 
-    public void onPwKeyPressed(KeyEvent keyEvent) throws Exception {
+    public void onPwKeyPressed(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ENTER) onLoginButtonClick();
         if (pw.getText().length() != 0) onPwMouseClicked();
     }
 
-    public void onLoginKeyPressed(KeyEvent keyEvent) throws Exception {
+    public void onLoginKeyPressed(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.UP) onPwMouseClicked();
         if (keyEvent.getCode() == KeyCode.UP) onPwMouseClicked();
         if (keyEvent.getCode() == KeyCode.ENTER) onLoginButtonClick();

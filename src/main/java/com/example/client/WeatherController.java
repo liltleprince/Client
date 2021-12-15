@@ -114,24 +114,6 @@ public class WeatherController {
     public Label L8;
 
     @FXML
-    public Label V1;
-    @FXML
-    public Label V2;
-    @FXML
-    public Label V3;
-    @FXML
-    public Label V4;
-    @FXML
-    public Label V5;
-    @FXML
-    public Label V6;
-    @FXML
-    public Label V7;
-    @FXML
-    public Label V8;
-
-
-    @FXML
     public javafx.scene.image.Image Image;
     @FXML
     public Label DayText;
@@ -144,7 +126,7 @@ public class WeatherController {
 
     Pane[] Pane;
     ImageView[] Img, I,C;
-    Label L[], V[];
+    Label[] L;
     Data data = Data.getData();
     SimpleDateFormat formatDay= new SimpleDateFormat("dd/MM/yyyy");
     SimpleDateFormat formatTime= new SimpleDateFormat("HH:mm:ss");
@@ -153,7 +135,7 @@ public class WeatherController {
     DropShadow dropShadow = new DropShadow(0,Color.BLACK);
 
     Timeline getData = new Timeline(
-            new KeyFrame(Duration.seconds(3),
+            new KeyFrame(Duration.seconds(2),
                     e -> {
                         if( !data.locationName.equals("NULL") && (data.sensorRegisterString.length > 0) && data.runGetData && data.Connected){
                             data.getInfoSensorNow();
@@ -182,7 +164,6 @@ public class WeatherController {
         C = new ImageView[]{C1,C2,C3,C4,C5,C6,C7,C8};
         I = new ImageView[]{I1,I2,I3,I4,I5,I6,I7,I8};
         L = new Label[]{L1,L2,L3,L4,L5,L6,L7,L8};
-        V = new Label[]{V1,V2,V3,V4,V5,V6,V7,V8};
         Img = new ImageView[]{Img1,Img2,Img3,Img4,Img5,Img6,Img7,Img8};
         for(int i=0; i<8; i++) Pane[i].setVisible(false);
 
@@ -190,19 +171,20 @@ public class WeatherController {
         timeline.play();
         getData.setCycleCount(Timeline.INDEFINITE);
         getData.play();
+        data.runGetData = true;
         data.getLocation();
         data.getSensor();
-        data.locationName = "NULL";
+        data.getLocationName();
         TextLocation.setText("Chọn địa điểm");
         innerShadow.setColor(Color.color(0.08366899937391281,0.03999999910593033,0.800000011920929));
         dropShadow.setWidth(50);
         dropShadow.setHeight(50);
+        System.out.println("Start");
     }
 
     public void RenderSensor(){
         sensorLength = data.sensorRegisterString.length;
         for(int i=0; i<8; i++){
-            V[i].setText("");
             L[i].setText("");
         }
         for(int i=0; i<sensorLength; i++){
@@ -225,18 +207,9 @@ public class WeatherController {
     }
 
     public void RenderDataSensor(){
-        if (data.infoSensorNow == null) return;
-        for(int i=0;i<data.infoSensorNow.length(); i++){
+        if (data.sensorRegister.length() == 0) return;
+        for(int i=0;i<data.sensorRegister.length(); i++){
             JSONObject jsonObject = data.sensorRegister.getJSONObject(i);
-            String TypeValue = jsonObject.get("TypeValue").toString();
-            V[i].setText(TypeValue);
-            if (TypeValue.length() < 3 ){
-                V[i].setLayoutX(60);
-                V[i].setLayoutY(35);
-            } else {
-                V[i].setLayoutX(14);
-                V[i].setLayoutY(78);
-            }
             if (data.infoSensorNow == null) return;
             for(int j=0;j<data.infoSensorNow.length(); j++){
                 if(jsonObject.get("TypeID").toString().equals(data.infoSensorNow.getJSONObject(j).get("TypeID").toString())){
@@ -245,30 +218,34 @@ public class WeatherController {
                         if(value.charAt(3)!='.') L[i].setText(value.substring(0,4));
                         else L[i].setText(value.substring(0,3));
                     else L[i].setText(value);
+                    if (L[i].getText().equals("!")) L[i].setTextFill(Color.RED);
+                    else L[i].setTextFill(Color.rgb(45,6,248));
                 }
             }
         }
     }
 
     public void openChooseLocation() {
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("ChoosePlace.fxml"));
+        Scene scene = null;
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("ChoosePlace.fxml"));
-            Stage stage = new Stage();
-            Scene scene = new Scene(fxmlLoader.load());
-            stage.setTitle("Thêm địa điểm");
-            stage.setResizable(false);
-            stage.setScene(scene);
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.show();
-        }
-        catch (IOException e) {
+            scene = new Scene(fxmlLoader.load());
+        } catch (IOException e) {
             e.printStackTrace();
         }
+        ChoosePlaceController choosePlaceController = fxmlLoader.getController();
+        choosePlaceController.start();
+        stage.setTitle("Thêm địa điểm");
+        stage.setResizable(false);
+        stage.setScene(scene);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.show();
     }
 
     public void onMouseClickedLogOut() {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("Confirm.fxml"));
         Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("Confirm.fxml"));
         Scene scene = null;
         try {
             scene = new Scene(fxmlLoader.load());
@@ -286,38 +263,31 @@ public class WeatherController {
         data.removeSensor(data.sensorRegisterString[index]);
         RenderSensor();
     }
-
-    public void chart(int index){
+    
+    public void chart(int index) {
         if (index == sensorLength){
+            Stage stage = new Stage();
+            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("ChooseSensor.fxml"));
+            Scene scene = null;
             try {
-                FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("ChooseSensor.fxml"));
-                Stage stage = new Stage();
-                Scene scene = new Scene(fxmlLoader.load());
-                stage.setTitle("Thêm cảm biến");
-                stage.setResizable(false);
-                stage.setScene(scene);
-                stage.initModality(Modality.APPLICATION_MODAL);
-                stage.show();
-
-            }
-            catch (IOException e) {
+                scene = new Scene(fxmlLoader.load());
+            } catch (IOException e) {
                 e.printStackTrace();
             }
+            ChooseSensorController chooseSensorController = fxmlLoader.getController();
+            chooseSensorController.start();
+            stage.setTitle("Thêm cảm biến");
+            stage.setResizable(false);
+            stage.setScene(scene);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.show();
         } else {
-            try {
-                FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("Chart.fxml"));
-                Stage stage = data.stage;
-                Scene scene = new Scene(fxmlLoader.load());
-                stage.setTitle("Vẽ biểu đồ");
-                stage.setScene(scene);
-                ChartController chartController = fxmlLoader.getController();
-                chartController.setScene(username.getScene());
-                data.setTypeId(data.sensorRegisterString[index]);
-                data.runGetData = false;
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-            }
+            data.stage.setTitle("Vẽ biểu đồ");
+            data.scene.setRoot(data.fxmlLoaderChart.getRoot());
+            ChartController chartController = data.fxmlLoaderChart.getController();
+            chartController.start();
+            data.setTypeId(data.sensorRegisterString[index]);
+            data.runGetData = false;
         }
     }
 
@@ -504,12 +474,12 @@ public class WeatherController {
     public void onMouseClickedC8(){
         Remove(7);
     }
-
+    
     public void onMouseEnteredI1(){
         if(sensorLength == 0){
             I1.setEffect(dropShadow);
         } else
-            I1.setVisible(true);
+        I1.setVisible(true);
         Img1.setEffect(new BoxBlur());
     }
 
@@ -517,7 +487,7 @@ public class WeatherController {
         if(sensorLength == 1){
             I2.setEffect(dropShadow);
         } else
-            I2.setVisible(true);
+        I2.setVisible(true);
         Img2.setEffect(new BoxBlur());
     }
 
@@ -525,7 +495,7 @@ public class WeatherController {
         if(sensorLength == 2){
             I3.setEffect(dropShadow);
         } else
-            I3.setVisible(true);
+        I3.setVisible(true);
         Img3.setEffect(new BoxBlur());
     }
 
@@ -533,7 +503,7 @@ public class WeatherController {
         if(sensorLength == 3){
             I4.setEffect(dropShadow);
         } else
-            I4.setVisible(true);
+        I4.setVisible(true);
         Img4.setEffect(new BoxBlur());
     }
 
@@ -541,7 +511,7 @@ public class WeatherController {
         if(sensorLength == 4){
             I5.setEffect(dropShadow);
         } else
-            I5.setVisible(true);
+        I5.setVisible(true);
         Img5.setEffect(new BoxBlur());
     }
 
@@ -549,7 +519,7 @@ public class WeatherController {
         if(sensorLength == 5){
             I6.setEffect(dropShadow);
         } else
-            I6.setVisible(true);
+        I6.setVisible(true);
         Img6.setEffect(new BoxBlur());
     }
 
@@ -557,7 +527,7 @@ public class WeatherController {
         if(sensorLength == 6){
             I7.setEffect(dropShadow);
         } else
-            I7.setVisible(true);
+        I7.setVisible(true);
         Img7.setEffect(new BoxBlur());
     }
 
@@ -565,7 +535,7 @@ public class WeatherController {
         if(sensorLength == 7){
             I8.setEffect(dropShadow);
         } else
-            I8.setVisible(true);
+        I8.setVisible(true);
         Img8.setEffect(new BoxBlur());
     }
 
@@ -573,7 +543,7 @@ public class WeatherController {
         if(sensorLength == 0){
             I1.setEffect(null);
         } else
-            I1.setVisible(false);
+        I1.setVisible(false);
         Img1.setEffect(null);
     }
 
@@ -581,7 +551,7 @@ public class WeatherController {
         if(sensorLength == 1){
             I2.setEffect(null);
         } else
-            I2.setVisible(false);
+        I2.setVisible(false);
         Img2.setEffect(null);
     }
 
@@ -589,7 +559,7 @@ public class WeatherController {
         if(sensorLength == 2){
             I3.setEffect(null);
         } else
-            I3.setVisible(false);
+        I3.setVisible(false);
         Img3.setEffect(null);
     }
 
@@ -597,7 +567,7 @@ public class WeatherController {
         if(sensorLength == 3){
             I4.setEffect(null);
         } else
-            I4.setVisible(false);
+        I4.setVisible(false);
         Img4.setEffect(null);
     }
 
@@ -605,7 +575,7 @@ public class WeatherController {
         if(sensorLength == 4){
             I5.setEffect(null);
         } else
-            I5.setVisible(false);
+        I5.setVisible(false);
         Img5.setEffect(null);
     }
 
@@ -613,7 +583,7 @@ public class WeatherController {
         if(sensorLength == 5){
             I6.setEffect(null);
         } else
-            I6.setVisible(false);
+        I6.setVisible(false);
         Img6.setEffect(null);
     }
 
@@ -621,7 +591,7 @@ public class WeatherController {
         if(sensorLength == 6){
             I7.setEffect(null);
         } else
-            I7.setVisible(false);
+        I7.setVisible(false);
         Img7.setEffect(null);
     }
 
@@ -629,7 +599,7 @@ public class WeatherController {
         if(sensorLength == 7){
             I8.setEffect(null);
         } else
-            I8.setVisible(false);
+        I8.setVisible(false);
         Img8.setEffect(null);
     }
 

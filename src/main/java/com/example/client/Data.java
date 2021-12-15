@@ -1,9 +1,11 @@
 package com.example.client;
 
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.json.*;
 
+import java.io.*;
 import java.net.Socket;
 
 public class Data {
@@ -12,12 +14,29 @@ public class Data {
     public static Client client = new Client();
     public String[] locationString, sensorString, sensorRegisterString, sensorTypeValue;
     public String locationName = "NULL", TypeId = "NULL", TypeName;
-    public Scene Login;
+    public Scene scene;
     public Stage stage;
     public Socket socket;
+    public FXMLLoader fxmlLoaderWeather,fxmlLoaderLogin,fxmlLoaderChart,fxmlLoaderCreateAccount;
     JSONObject account = new JSONObject(), newAccount = new JSONObject(), locationId = new JSONObject(), fileSize, removeSensor = new JSONObject(), addSensor = new JSONObject(), infoSensor;
-    JSONArray location, sensor, sensorRegister, dataInfoSensor, infoSensorNow;
+    JSONArray location, sensor, sensorRegister, dataInfoSensor, infoSensorNow, cookie;
 
+    public void start(Stage stage) throws IOException {
+        fxmlLoaderWeather = new FXMLLoader(Main.class.getResource("Weather.fxml"));
+        fxmlLoaderLogin = new FXMLLoader(Main.class.getResource("Login.fxml"));
+        fxmlLoaderChart = new FXMLLoader(Main.class.getResource("Chart.fxml"));
+        fxmlLoaderCreateAccount = new FXMLLoader(Main.class.getResource("CreateAccount.fxml"));
+        fxmlLoaderWeather.load();
+        fxmlLoaderCreateAccount.load();
+        fxmlLoaderLogin.load();
+        fxmlLoaderChart.load();
+
+        this.stage = stage;
+    }
+
+    public void setScene(Scene scene) {
+        this.scene = scene;
+    }
 
     private Data(){}
 
@@ -113,6 +132,7 @@ public class Data {
 
     public void setLocationName(String locationName){
         if (locationName.equals(this.locationName)) return;
+        System.out.println("Done");
         this.locationName = locationName;
         this.changeLocation = true;
         for(int i=0; i<location.length(); i++){
@@ -123,6 +143,47 @@ public class Data {
             }
         }
         client.getSensorRegister();
+        File file = new File("cookie.json");
+        JSONObject object = new JSONObject();
+        object.put("Username",account.get("Username").toString());
+        object.put("LocationName",locationName);
+        try {
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file));
+            boolean check = true;
+            for (int i=0; i<cookie.length(); i++)
+                if (cookie.getJSONObject(i).get("Username").toString().equals(account.get("Username").toString())) {
+                    check = false;
+                    cookie.getJSONObject(i).put("LocationName",locationName);
+                }
+            if (check) cookie.put(object);
+            bufferedWriter.write(cookie.toString());
+            System.out.println(cookie.toString());
+            bufferedWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void getLocationName(){
+        File file = new File("cookie.json");
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(file));
+            String line = reader.readLine();
+            StringBuilder json = new StringBuilder();
+            while (line != null){
+                json.append(line);
+                line = reader.readLine();
+            }
+            if (json.length() == 0) json.append("[]");
+            cookie = new JSONArray(json.toString());
+            for (int i=0; i<cookie.length(); i++)
+                if (cookie.getJSONObject(i).get("Username").toString().equals(account.get("Username").toString())) {
+                    setLocationName(cookie.getJSONObject(i).get("LocationName").toString());
+                }
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void setLocationId(String locationId){
@@ -165,7 +226,7 @@ public class Data {
 
     public void setRemoveSensor(String addSensor){
         this.removeSensor.put("LocationId",locationId.get("LocationId").toString());
-        this.removeSensor.put("TypeID",addSensor);
+        this.removeSensor.put("TypeId",addSensor);
     }
 
     public String getAddSensor(){
@@ -176,16 +237,8 @@ public class Data {
         return removeSensor.toString();
     }
 
-    public void setStage(Stage stage) {
-        this.stage = stage;
-    }
-
     public void Connect(){
         client.Connect();
-    }
-
-    public void setLogin(Scene scene){
-        this.Login = scene;
     }
 
     public void setSocket(Socket socket){
