@@ -26,6 +26,7 @@ public class ConfirmController {
         data.scene.setRoot(data.fxmlLoaderLogin.getRoot());
         data.runGetData = false;
         data.locationName = "NULL";
+        data.LogoutAccount();
     }
 
     public void onMouseExitedCancel() {
