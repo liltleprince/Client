@@ -36,21 +36,10 @@ public class LoginController {
     @FXML
     public Label NoAccountText;
 
-    boolean start = true;
-
     Timeline timeline = new Timeline(
             new KeyFrame(Duration.seconds(1),
                     e -> {
                         if (data.DisConnect) data.Connect();
-                        if (start) {
-                            start = false;
-                            if (data.DisConnect) return;
-                            if (data.checkLastAccount()) {
-                                username.setText(data.getLastUsername());
-                                pw.setText(data.getLastPassword());
-                                onLoginButtonClick();
-                            }
-                        }
                     }));
 
     public void start() {
@@ -119,7 +108,6 @@ public class LoginController {
         weatherController.start();
         clear();
         data.runGetData = true;
-        data.LoginAccount();
     }
 
     public void clear(){

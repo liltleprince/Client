@@ -18,7 +18,7 @@ public class Data {
     public Stage stage;
     public Socket socket;
     public FXMLLoader fxmlLoaderWeather,fxmlLoaderLogin,fxmlLoaderChart,fxmlLoaderCreateAccount;
-    JSONObject account = new JSONObject(), newAccount = new JSONObject(), locationId = new JSONObject(), fileSize, removeSensor = new JSONObject(), addSensor = new JSONObject(), infoSensor, lastAccount;
+    JSONObject account = new JSONObject(), newAccount = new JSONObject(), locationId = new JSONObject(), fileSize, removeSensor = new JSONObject(), addSensor = new JSONObject(), infoSensor;
     JSONArray location, sensor, sensorRegister, dataInfoSensor, infoSensorNow, cookie;
 
     public void start(Stage stage) throws IOException {
@@ -243,61 +243,6 @@ public class Data {
 
     public void setSocket(Socket socket){
         this.socket = socket;
-    }
-
-    public boolean checkLastAccount(){
-        File file = new File("lastAccount.json");
-        BufferedReader reader;
-        try {
-            reader = new BufferedReader(new FileReader(file));
-            String line = reader.readLine();
-            StringBuilder json = new StringBuilder();
-            while (line != null){
-                json.append(line);
-                line = reader.readLine();
-            }
-            this.lastAccount = new JSONObject(json.toString());
-            return !lastAccount.get("Username").equals("NULL");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    public String getLastUsername(){
-        return lastAccount.get("Username").toString();
-    }
-
-    public void LogoutAccount(){
-        File file = new File("lastAccount.json");
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("Username","NULL");
-            jsonObject.put("Password","NULL");
-            writer.write(jsonObject.toString());
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void LoginAccount(){
-        File file = new File("lastAccount.json");
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("Username",account.get("Username"));
-            jsonObject.put("Password",account.get("Password"));
-            writer.write(jsonObject.toString());
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public String getLastPassword(){
-        return lastAccount.get("Password").toString();
     }
 
     public void Login(){
