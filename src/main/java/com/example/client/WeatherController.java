@@ -179,7 +179,6 @@ public class WeatherController {
         innerShadow.setColor(Color.color(0.08366899937391281,0.03999999910593033,0.800000011920929));
         dropShadow.setWidth(50);
         dropShadow.setHeight(50);
-        System.out.println("Start");
     }
 
     public void RenderSensor(){

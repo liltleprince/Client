@@ -1,14 +1,237 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.InnerShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.client.WeatherController"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.client.WeatherController">
+   <Pane layoutY="79.0" prefHeight="322.0" prefWidth="600.0" style="-fx-background-color: rgb(237,215,118);">
+      <Pane fx:id="Pane1" layoutX="40.0" layoutY="34.0" onMouseEntered="#onMouseEnteredPane1" onMouseExited="#onMouseExitedPane1" prefHeight="116.0" prefWidth="119.0" style="-fx-background-radius: 10px;">
+         <ImageView fx:id="Img1" fitHeight="116.0" fitWidth="119.0" pickOnBounds="true">
+            <Image fx:id="Image" url="@image/chart.png" />
+         </ImageView>
+         <Label fx:id="L1" alignment="CENTER_RIGHT" layoutY="46.0" prefHeight="32.0" prefWidth="56.0">
+            <font>
+               <Font name="DejaVu Serif Bold" size="22.0" />
+            </font>
+         </Label>
+         <ImageView fx:id="C1" fitHeight="24.0" fitWidth="24.0" layoutX="95.0" onMouseClicked="#onMouseClickedC1" onMouseEntered="#onMouseEnteredC1" onMouseExited="#onMouseExitedC1" pickOnBounds="true" preserveRatio="true">
+            <Image url="@image/close.png" />
+         </ImageView>
+         <ImageView fx:id="I1" fitHeight="56.0" fitWidth="56.0" layoutX="35.0" layoutY="30.0" pickOnBounds="true">
+            <effect>
+               <InnerShadow>
+                  <color>
+                     <Color red="0.08366899937391281" green="0.03999999910593033" blue="0.800000011920929" />
+                  </color>
+               </InnerShadow>
+            </effect>
+            <Image url="@image/chart.png" />
+         </ImageView>
+         <ImageView fitHeight="56.0" fitWidth="56.0" layoutX="35.0" layoutY="30.0" onMouseClicked="#onMouseClickedI1" onMouseEntered="#onMouseEnteredI1" onMouseExited="#onMouseExitedI1" pickOnBounds="true" preserveRatio="true" />
+      </Pane>
+      <Pane fx:id="Pane2" layoutX="174.0" layoutY="34.0" onMouseEntered="#onMouseEnteredPane2" onMouseExited="#onMouseExitedPane2" prefHeight="116.0" prefWidth="119.0" style="-fx-background-radius: 10px;">
+         <ImageView fx:id="Img2" fitHeight="116.0" fitWidth="119.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@image/Temperature.png" />
+         </ImageView>
+         <Label fx:id="L2" alignment="CENTER_RIGHT" layoutY="46.0" prefHeight="32.0" prefWidth="56.0">
+            <font>
+               <Font name="DejaVu Serif Bold" size="22.0" />
+            </font>
+         </Label>
+         <ImageView fx:id="I2" fitHeight="56.0" fitWidth="56.0" layoutX="32.0" layoutY="30.0" pickOnBounds="true">
+            <effect>
+               <InnerShadow>
+                  <color>
+                     <Color red="0.08366899937391281" green="0.03999999910593033" blue="0.800000011920929" />
+                  </color>
+               </InnerShadow>
+            </effect>
+            <Image url="@image/chart.png" />
+         </ImageView>
+         <ImageView fx:id="C2" fitHeight="24.0" fitWidth="24.0" layoutX="95.0" onMouseClicked="#onMouseClickedC2" onMouseEntered="#onMouseEnteredC2" onMouseExited="#onMouseExitedC2" pickOnBounds="true" preserveRatio="true">
+            <Image url="@image/close.png" />
+         </ImageView>
+         <ImageView fitHeight="56.0" fitWidth="56.0" layoutX="32.0" layoutY="30.0" onMouseClicked="#onMouseClickedI2" onMouseEntered="#onMouseEnteredI2" onMouseExited="#onMouseExitedI2" pickOnBounds="true" preserveRatio="true" />
+      </Pane>
+      <Pane fx:id="Pane3" layoutX="308.0" layoutY="34.0" onMouseEntered="#onMouseEnteredPane3" onMouseExited="#onMouseExitedPane3" prefHeight="116.0" prefWidth="119.0" style="-fx-background-radius: 10px;">
+         <ImageView fx:id="Img3" fitHeight="116.0" fitWidth="119.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@image/Temperature.png" />
+         </ImageView>
+         <Label fx:id="L3" alignment="CENTER_RIGHT" layoutY="46.0" prefHeight="32.0" prefWidth="56.0">
+            <font>
+               <Font name="DejaVu Serif Bold" size="22.0" />
+            </font>
+         </Label>
+         <ImageView fx:id="I3" fitHeight="56.0" fitWidth="56.0" layoutX="32.0" layoutY="30.0" pickOnBounds="true">
+            <effect>
+               <InnerShadow>
+                  <color>
+                     <Color red="0.08366899937391281" green="0.03999999910593033" blue="0.800000011920929" />
+                  </color>
+               </InnerShadow>
+            </effect>
+            <Image url="@image/chart.png" />
+         </ImageView>
+         <ImageView fx:id="C3" fitHeight="24.0" fitWidth="24.0" layoutX="95.0" onMouseClicked="#onMouseClickedC3" onMouseEntered="#onMouseEnteredC3" onMouseExited="#onMouseExitedC3" pickOnBounds="true" preserveRatio="true">
+            <Image url="@image/close.png" />
+         </ImageView>
+         <ImageView fitHeight="56.0" fitWidth="56.0" layoutX="32.0" layoutY="30.0" onMouseClicked="#onMouseClickedI3" onMouseEntered="#onMouseEnteredI3" onMouseExited="#onMouseExitedI3" pickOnBounds="true" preserveRatio="true" />
+      </Pane>
+      <Pane fx:id="Pane4" layoutX="441.0" layoutY="34.0" onMouseEntered="#onMouseEnteredPane4" onMouseExited="#onMouseExitedPane4" prefHeight="116.0" prefWidth="119.0" style="-fx-background-color: rgba(102,178,255,0.5); -fx-background-radius: 10px;">
+         <ImageView fx:id="Img4" fitHeight="116.0" fitWidth="119.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@image/Humidity.png" />
+         </ImageView>
+         <Label fx:id="L4" alignment="CENTER_RIGHT" layoutY="46.0" prefHeight="32.0" prefWidth="56.0">
+            <font>
+               <Font name="DejaVu Serif Bold" size="22.0" />
+            </font>
+         </Label>
+         <ImageView fx:id="I4" fitHeight="56.0" fitWidth="56.0" layoutX="32.0" layoutY="30.0" pickOnBounds="true">
+            <effect>
+               <InnerShadow>
+                  <color>
+                     <Color red="0.08366899937391281" green="0.03999999910593033" blue="0.800000011920929" />
+                  </color>
+               </InnerShadow>
+            </effect>
+            <Image url="@image/chart.png" />
+         </ImageView>
+         <ImageView fx:id="C4" fitHeight="24.0" fitWidth="24.0" layoutX="95.0" onMouseClicked="#onMouseClickedC4" onMouseEntered="#onMouseEnteredC4" onMouseExited="#onMouseExitedC4" pickOnBounds="true" preserveRatio="true">
+            <Image url="@image/close.png" />
+         </ImageView>
+         <ImageView fitHeight="56.0" fitWidth="56.0" layoutX="32.0" layoutY="30.0" onMouseClicked="#onMouseClickedI4" onMouseEntered="#onMouseEnteredI4" onMouseExited="#onMouseExitedI4" pickOnBounds="true" preserveRatio="true" />
+      </Pane>
+      <Pane fx:id="Pane5" layoutX="40.0" layoutY="176.0" onMouseEntered="#onMouseEnteredPane5" onMouseExited="#onMouseExitedPane5" prefHeight="116.0" prefWidth="119.0" style="-fx-background-radius: 10px;">
+         <ImageView fx:id="Img5" fitHeight="116.0" fitWidth="119.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@image/Temperature.png" />
+         </ImageView>
+         <Label fx:id="L5" alignment="CENTER_RIGHT" layoutY="46.0" prefHeight="32.0" prefWidth="56.0">
+            <font>
+               <Font name="DejaVu Serif Bold" size="22.0" />
+            </font>
+         </Label>
+         <ImageView fx:id="I5" fitHeight="56.0" fitWidth="56.0" layoutX="32.0" layoutY="30.0" pickOnBounds="true">
+            <effect>
+               <InnerShadow>
+                  <color>
+                     <Color red="0.08366899937391281" green="0.03999999910593033" blue="0.800000011920929" />
+                  </color>
+               </InnerShadow>
+            </effect>
+            <Image url="@image/chart.png" />
+         </ImageView>
+         <ImageView fx:id="C5" fitHeight="24.0" fitWidth="24.0" layoutX="95.0" onMouseClicked="#onMouseClickedC5" onMouseEntered="#onMouseEnteredC5" onMouseExited="#onMouseExitedC5" pickOnBounds="true" preserveRatio="true">
+            <Image url="@image/close.png" />
+         </ImageView>
+         <ImageView fitHeight="56.0" fitWidth="56.0" layoutX="32.0" layoutY="30.0" onMouseClicked="#onMouseClickedI5" onMouseEntered="#onMouseEnteredI5" onMouseExited="#onMouseExitedI5" pickOnBounds="true" preserveRatio="true" />
+      </Pane>
+      <Pane fx:id="Pane6" layoutX="174.0" layoutY="176.0" onMouseEntered="#onMouseEnteredPane6" onMouseExited="#onMouseExitedPane6" prefHeight="116.0" prefWidth="119.0" style="-fx-background-radius: 10px;">
+         <ImageView fx:id="Img6" fitHeight="116.0" fitWidth="119.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@image/Temperature.png" />
+         </ImageView>
+         <Label fx:id="L6" alignment="CENTER_RIGHT" layoutY="46.0" prefHeight="32.0" prefWidth="56.0">
+            <font>
+               <Font name="DejaVu Serif Bold" size="22.0" />
+            </font>
+         </Label>
+         <ImageView fx:id="I6" fitHeight="56.0" fitWidth="56.0" layoutX="32.0" layoutY="30.0" pickOnBounds="true">
+            <effect>
+               <InnerShadow>
+                  <color>
+                     <Color red="0.08366899937391281" green="0.03999999910593033" blue="0.800000011920929" />
+                  </color>
+               </InnerShadow>
+            </effect>
+            <Image url="@image/chart.png" />
+         </ImageView>
+         <ImageView fx:id="C6" fitHeight="24.0" fitWidth="24.0" layoutX="95.0" onMouseClicked="#onMouseClickedC6" onMouseEntered="#onMouseEnteredC6" onMouseExited="#onMouseExitedC6" pickOnBounds="true" preserveRatio="true">
+            <Image url="@image/close.png" />
+         </ImageView>
+         <ImageView fitHeight="56.0" fitWidth="56.0" layoutX="32.0" layoutY="30.0" onMouseClicked="#onMouseClickedI6" onMouseEntered="#onMouseEnteredI6" onMouseExited="#onMouseExitedI6" pickOnBounds="true" preserveRatio="true" />
+      </Pane>
+      <Pane fx:id="Pane7" layoutX="308.0" layoutY="176.0" onMouseEntered="#onMouseEnteredPane7" onMouseExited="#onMouseExitedPane7" prefHeight="116.0" prefWidth="119.0" style="-fx-background-radius: 10px;">
+         <ImageView fx:id="Img7" fitHeight="116.0" fitWidth="119.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@image/Temperature.png" />
+         </ImageView>
+         <Label fx:id="L7" alignment="CENTER_RIGHT" layoutY="46.0" prefHeight="32.0" prefWidth="56.0">
+            <font>
+               <Font name="DejaVu Serif Bold" size="22.0" />
+            </font>
+         </Label>
+         <ImageView fx:id="I7" fitHeight="56.0" fitWidth="56.0" layoutX="32.0" layoutY="30.0" pickOnBounds="true">
+            <effect>
+               <InnerShadow>
+                  <color>
+                     <Color red="0.08366899937391281" green="0.03999999910593033" blue="0.800000011920929" />
+                  </color>
+               </InnerShadow>
+            </effect>
+            <Image url="@image/chart.png" />
+         </ImageView>
+         <ImageView fx:id="C7" fitHeight="24.0" fitWidth="24.0" layoutX="95.0" onMouseClicked="#onMouseClickedC7" onMouseEntered="#onMouseEnteredC7" onMouseExited="#onMouseExitedC7" pickOnBounds="true" preserveRatio="true">
+            <Image url="@image/close.png" />
+         </ImageView>
+         <ImageView fitHeight="56.0" fitWidth="56.0" layoutX="32.0" layoutY="30.0" onMouseClicked="#onMouseClickedI7" onMouseEntered="#onMouseEnteredI7" onMouseExited="#onMouseExitedI7" pickOnBounds="true" preserveRatio="true" />
+      </Pane>
+      <Pane fx:id="Pane8" layoutX="441.0" layoutY="176.0" onMouseEntered="#onMouseEnteredPane8" onMouseExited="#onMouseExitedPane8" prefHeight="116.0" prefWidth="119.0" style="-fx-background-radius: 10px;">
+         <ImageView fx:id="Img8" fitHeight="116.0" fitWidth="119.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@image/add.png" />
+         </ImageView>
+         <Label fx:id="L8" alignment="CENTER_RIGHT" layoutY="46.0" prefHeight="32.0" prefWidth="56.0">
+            <font>
+               <Font name="DejaVu Serif Bold" size="22.0" />
+            </font>
+         </Label>
+         <ImageView fx:id="I8" fitHeight="56.0" fitWidth="56.0" layoutX="32.0" layoutY="30.0" pickOnBounds="true">
+            <effect>
+               <InnerShadow>
+                  <color>
+                     <Color red="0.08366899937391281" green="0.03999999910593033" blue="0.800000011920929" />
+                  </color>
+               </InnerShadow>
+            </effect>
+            <Image url="@image/chart.png" />
+         </ImageView>
+         <ImageView fx:id="C8" fitHeight="24.0" fitWidth="24.0" layoutX="95.0" onMouseClicked="#onMouseClickedC8" onMouseEntered="#onMouseEnteredC8" onMouseExited="#onMouseExitedC8" pickOnBounds="true" preserveRatio="true">
+            <Image url="@image/close.png" />
+         </ImageView>
+         <ImageView fitHeight="56.0" fitWidth="56.0" layoutX="32.0" layoutY="30.0" onMouseClicked="#onMouseClickedI8" onMouseEntered="#onMouseEnteredI8" onMouseExited="#onMouseExitedI8" pickOnBounds="true" preserveRatio="true" />
+      </Pane>
+   </Pane>
+   <Text fx:id="TextLocation" layoutX="57.0" layoutY="47.0" onMouseClicked="#openChooseLocation" onMouseExited="#onMouseExitedLocation" onMouseMoved="#onMouseMovedLocation" strokeType="OUTSIDE" strokeWidth="0.0" text="Chọn địa điểm">
+      <font>
+         <Font name="DejaVu Serif Condensed Bold" size="18.0" />
+      </font>
+   </Text>
+   <ImageView fx:id="IconLocation" fitHeight="32.0" fitWidth="32.0" layoutX="21.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+      <Image url="@image/placeholder.png" />
+   </ImageView>
+   <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="270.0" layoutY="356.0" pickOnBounds="true" preserveRatio="true" />
+   <Label fx:id="LogOut" alignment="CENTER_RIGHT" layoutX="508.0" layoutY="31.0" onMouseClicked="#onMouseClickedLogOut" onMouseExited="#onMouseExitedLogOut" onMouseMoved="#onMouseMovedLogOut" prefWidth="76.0" text="Đăng xuất" textAlignment="RIGHT">
+      <font>
+         <Font name="Cantarell Extra Bold" size="15.0" />
+      </font>
+   </Label>
+   <Label fx:id="username" alignment="CENTER_RIGHT" layoutX="468.0" layoutY="4.0" prefHeight="20.0" prefWidth="116.0" textAlignment="RIGHT" textFill="RED">
+      <font>
+         <Font name="Dyuthi Regular" size="17.0" />
+      </font>
+   </Label>
+   <Label fx:id="TimeText" layoutX="230.0" layoutY="21.0" textAlignment="RIGHT">
+      <font>
+         <Font name="DejaVu Serif Bold" size="24.0" />
+      </font>
+   </Label>
+   <Label fx:id="DayText" alignment="BOTTOM_RIGHT" layoutX="256.0" layoutY="55.0">
+      <font>
+         <Font name="DejaVu Serif Bold" size="14.0" />
+      </font>
+   </Label>
 </AnchorPane>

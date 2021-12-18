@@ -1,9 +1,8 @@
 [
-  {"TypeID": 1, "Value": 1.232},
-  {"TypeID": 2, "Value": 34.4324},
-  {"TypeID": 3, "Value": 123},
-  {"TypeID": 4, "Value": 21.23},
-  {"TypeID": 5, "Value": 432.123},
-  {"TypeID": 6, "Value": 123.2},
-  {"TypeID": 8, "Value": 123}
+{"TypeID": 4, "Value": !},
+{"TypeID": 7, "Value": !},
+{"TypeID": 6, "Value": !},
+{"TypeID": 8, "Value": !},
+{"TypeID": 5, "Value": !},
+{"TypeID": 3, "Value": !}
 ]

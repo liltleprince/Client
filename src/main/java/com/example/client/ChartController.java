@@ -84,6 +84,14 @@ public class ChartController {
     public void onMouseClickedBack(){
         data.scene.setRoot(data.fxmlLoaderWeather.getRoot());
         data.runGetData = true;
+        TypeTime = "NULL";
+        Day.setStyle(styleDefault);
+        Month.setStyle(styleDefault);
+        Year.setStyle(styleDefault);
+        chart.getData().clear();
+        Date.setValue(null);
+        x.setLabel(null);
+        y.setLabel(null);
     }
 
     public void onMouseEnteredDay(){
@@ -151,16 +159,24 @@ public class ChartController {
             case "Month" -> TypeTimeVI = "Tháng";
             default -> TypeTimeVI = "Năm";
         }
+        String xTypeTime;
+        switch (TypeTimeVI){
+            case "Ngày" -> xTypeTime = "Giờ";
+            case "Tháng" -> xTypeTime = "Ngày";
+            default -> xTypeTime = "Tháng";
+        }
         chart.getData().clear();
         if (data.dataInfoSensor.length() < 2){
             chart.setName("Xin lỗi! Không có dữ liệu ...");
             return;
         }
-        chart.setName("Biểu đồ " + data.VI_EN(data.TypeName) + " " + TypeTimeVI + " " + value);
+        chart.setName("Biểu đồ " + data.VI_EN(data.TypeName) + " tại " + data.locationName +" "+ TypeTimeVI + " " + value);
         x.setLowerBound((Integer) data.dataInfoSensor.getJSONObject(0).get("Time"));
         x.setUpperBound((Integer) data.dataInfoSensor.getJSONObject(data.dataInfoSensor.length()-1).get("Time"));
         x.setTickUnit(1);
         x.setAutoRanging(false);
+        x.setLabel(xTypeTime);
+        y.setLabel(data.TypeValue);
         for (int i=0; i<data.dataInfoSensor.length(); i++){
             chart.getData().add(new XYChart.Data(data.dataInfoSensor.getJSONObject(i).get("Time"), data.dataInfoSensor.getJSONObject(i).get("Value")));
         }
@@ -197,8 +213,6 @@ public class ChartController {
             }
         });
 
-        Date.valueProperty().addListener((ov, oldValue, newValue) -> {
-            chart();
-        });
+        Date.valueProperty().addListener((ov, oldValue, newValue) -> chart());
     }
 }

@@ -13,12 +13,12 @@ public class Data {
     public boolean Connected = false, DisConnect = true, Succeed = false, changeLocation = false, runGetData = false;
     public static Client client = new Client();
     public String[] locationString, sensorString, sensorRegisterString, sensorTypeValue;
-    public String locationName = "NULL", TypeId = "NULL", TypeName;
+    public String locationName = "NULL", TypeId = "NULL", TypeName, TypeValue;
     public Scene scene;
     public Stage stage;
     public Socket socket;
     public FXMLLoader fxmlLoaderWeather,fxmlLoaderLogin,fxmlLoaderChart,fxmlLoaderCreateAccount;
-    JSONObject account = new JSONObject(), newAccount = new JSONObject(), locationId = new JSONObject(), fileSize, removeSensor = new JSONObject(), addSensor = new JSONObject(), infoSensor;
+    JSONObject account = new JSONObject(), newAccount = new JSONObject(), locationId = new JSONObject(), fileSize, removeSensor = new JSONObject(), addSensor = new JSONObject(), infoSensor, lastAccount;
     JSONArray location, sensor, sensorRegister, dataInfoSensor, infoSensorNow, cookie;
 
     public void start(Stage stage) throws IOException {
@@ -132,7 +132,6 @@ public class Data {
 
     public void setLocationName(String locationName){
         if (locationName.equals(this.locationName)) return;
-        System.out.println("Done");
         this.locationName = locationName;
         this.changeLocation = true;
         for(int i=0; i<location.length(); i++){
@@ -157,7 +156,6 @@ public class Data {
                 }
             if (check) cookie.put(object);
             bufferedWriter.write(cookie.toString());
-            System.out.println(cookie.toString());
             bufferedWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -195,7 +193,8 @@ public class Data {
         for (int i=0; i<sensorRegister.length(); i++){
             JSONObject jsonObject = sensorRegister.getJSONObject(i);
             if (TypeName.equals(jsonObject.get("TypeName"))){
-                this.TypeId = jsonObject.get("TypeID").toString();
+                TypeId = jsonObject.get("TypeID").toString();
+                TypeValue = jsonObject.get("TypeValue").toString();
                 break;
             }
         }
@@ -243,6 +242,61 @@ public class Data {
 
     public void setSocket(Socket socket){
         this.socket = socket;
+    }
+
+    public boolean checkLastAccount(){
+        File file = new File("lastAccount.json");
+        BufferedReader reader;
+        try {
+            reader = new BufferedReader(new FileReader(file));
+            String line = reader.readLine();
+            StringBuilder json = new StringBuilder();
+            while (line != null){
+                json.append(line);
+                line = reader.readLine();
+            }
+            this.lastAccount = new JSONObject(json.toString());
+            return !lastAccount.get("Username").equals("NULL");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public String getLastUsername(){
+        return lastAccount.get("Username").toString();
+    }
+
+    public void LogoutAccount(){
+        File file = new File("lastAccount.json");
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("Username","NULL");
+            jsonObject.put("Password","NULL");
+            writer.write(jsonObject.toString());
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void LoginAccount(){
+        File file = new File("lastAccount.json");
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("Username",account.get("Username"));
+            jsonObject.put("Password",account.get("Password"));
+            writer.write(jsonObject.toString());
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String getLastPassword(){
+        return lastAccount.get("Password").toString();
     }
 
     public void Login(){
